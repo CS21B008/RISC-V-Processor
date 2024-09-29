@@ -39,8 +39,8 @@ always @(*) begin
       4'b1011: ALUOut = A >> B;          // Shift Right Logical
       4'b1100: ALUOut = $Signed(A) << B;          // Shift Left Arithmetic
       4'b1101: ALUOut = $Signed(A) >> B;          // Shift Right Arithmetic
-      4'b1110: ALUOut = A * B;
-      4'b1111: ALUOut = A / B;
+      4'b1110: ALUOut = $Signed(A) * $Signed(B);
+      4'b1111: ALUOut = $Signed(A) / $Signed(B);
       default: ALUOut = 32'h00000000;        // Default output is zero
   endcase
 
