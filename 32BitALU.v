@@ -1,13 +1,12 @@
 // 32-bit ALU supports the following functions:
-// Integer type: ADD,SUB,MUL,DIV,AND,OR,NOT,SLT,SLTU,SGT,SGTU,SEQ,SLL,SRL,SLA,SRA
-// ORDER: ADD,SUB,SEQ,SLT,SGT,AND,OR,NOT,SLTU,SGTU,SLL,SRL,SLA,SRA,MUL,DIV
+// ORDER(Integer Type): ADD,SUB,SEQ,SLT,SGT,SLTU,SGTU,AND,OR,NOT,SLL,SRL,SLA,SRA,MUL,MULH,MULHU,MULHSU,DIV,DIVU,REM,REMU
 // Floating point type: need to do in the future
 
 
 module ALU32Bit(
   input [31:0] A,
   input [31:0] B,
-  input [3:0] ALUOp,
+  input [4:0] ALUOp,
   output reg [31:0] ALUOut,
   output reg Zero,
   output reg LT,
@@ -15,38 +14,47 @@ module ALU32Bit(
   output reg Overflow
 );
 
+reg [63:0] ALUOutTemp;
 
 always @(*) begin
-  // Reset flags
-  Zero = 1'b0;
-  LT = 1'b0;
-  GT = 1'b0;
-  Overflow = 1'b0;
   
   // ALU operations based on ALU_Sel
   case(ALUOp)
-      4'b0000: ALUOut = A + B;           // Add
-      4'b0001: ALUOut = A - B;           // Subtract
-      4'b0010: ALUOut = (A == B) ? 32'h00000001 : 32'h00000000; // Equal
-      4'b0011: ALUOut = ($Signed(A) < $Signed(B)) ? 32'h00000001 : 32'h00000000;  // SLT (Signed Comparison)
-      4'b0100: ALUOut = ($Signed(A) > $Signed(B)) ? 32'h00000001 : 32'h00000000;  // Greater than (Signed)
-      4'b0101: ALUOut = A & B;           // AND
-      4'b0110: ALUOut = A | B;           // OR
-      4'b0111: ALUOut = ~A;              // NOT
-      4'b1000: ALUOut = (A < B) ? 32'h00000001 : 32'h00000000;  // SLTU (Unsigned Comparison)
-      4'b1001: ALUOut = (A > B) ? 32'h00000001 : 32'h00000000;  // Greater than (Unsigned)
-      4'b1010: ALUOut = A << B;          // Shift Left Logical
-      4'b1011: ALUOut = A >> B;          // Shift Right Logical
-      4'b1100: ALUOut = $Signed(A) << B;          // Shift Left Arithmetic
-      4'b1101: ALUOut = $Signed(A) >> B;          // Shift Right Arithmetic
-      4'b1110: ALUOut = $Signed(A) * $Signed(B);
-      4'b1111: ALUOut = $Signed(A) / $Signed(B);
-      default: ALUOut = 32'h00000000;        // Default output is zero
-  endcase
-
-  // Set flags based on output
-  Zero = (ALUOut == 32'h00000000) ? 1'b1 : 1'b0;  // Zero flag is set if ALUOut is zero
-  LT = (A < B) ? 1'b1 : 1'b0;                 // Less than flag (Signed for SLT)
-  GT = (A > B) ? 1'b1 : 1'b0;                 // Greater than flag (Signed for SLT)
+      5'b00000: ALUOut = $signed(A) + $signed(B);                         // Add
+      5'b00001: ALUOut = $signed(A) - $signed(B);                         // Subtract
+      5'b00010: ALUOut = (A == B) ? 32'd1 : 32'd0;                        // Equal
+      5'b00011: ALUOut = ($signed(A) < $signed(B)) ? 32'd1 : 32'd0;       // SLT (signed Comparison)
+      5'b00100: ALUOut = ($signed(A) > $signed(B)) ? 32'd1 : 32'd0;       // Greater than (signed)
+      5'b00101: ALUOut = (A < B) ? 32'd1 : 32'd0;                         // SLTU (Unsigned Comparison)
+      5'b00110: ALUOut = (A > B) ? 32'd1 : 32'd0;                         // Greater than (Unsigned)
+      5'b00111: ALUOut = A & B;                                           // Bitwise AND
+      5'b01000: ALUOut = A | B;                                           // Bitwise OR
+      5'b01001: ALUOut = ~A;                                              // Bitwise NOT
+      5'b01010: ALUOut = A << B;                                          // Shift Left Logical
+      5'b01011: ALUOut = A >> B;                                          // Shift Right Logical
+      5'b01100: ALUOut = $signed(A) << B;                                 // Shift Left Arithmetic
+      5'b01101: ALUOut = $signed(A) >> B;                                 // Shift Right Arithmetic
+      5'b01110: begin
+                	ALUOutTemp = $signed(A) * $signed(B);                     
+                	ALUOut = ALUOutTemp[31:0];
+		            end                 		    			                        // Multiply lower 32 bits
+      5'b01111: begin
+			            ALUOutTemp = $signed(A) * $signed(B);                
+      			      ALUOut = ALUOutTemp[63:32];
+                end                                                       // Multiply higher 32 bits  
+      5'b10000: begin
+                  ALUOutTemp = A * B;
+                  ALUOut = ALUOutTemp[63:32];
+                end                                                       // Multiply higher 32 bits (Unsigned)
+      5'b10001: begin
+                  ALUOutTemp = $signed(A) * B;
+                  ALUOut = ALUOutTemp[63:32];
+                end                                                       // Multiply higher 32 bits (signed and unsigned)
+      5'b10010: ALUOut = ($signed(A) / $signed(B));                       // Divide (signed)
+      5'b10011: ALUOut = (A / B);                                         // Divide (unsigned)
+      5'b10100: ALUOut = ($signed(A) % $signed(B));                       // Remainder (signed)
+      5'b10101: ALUOut = (A % B);                                         // Remainder (unsigned)
+      default: ALUOut = 32'h00000000;                                     // Default output is zero
+  endcase               
 end
 endmodule
