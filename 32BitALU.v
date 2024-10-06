@@ -37,10 +37,10 @@ always @(*) begin
       5'b01110: begin
                 	ALUOutTemp = $signed(A) * $signed(B);                     
                 	ALUOut = ALUOutTemp[31:0];
-		            end                 		    			                        // Multiply lower 32 bits
+		end                 		    			  // Multiply lower 32 bits
       5'b01111: begin
-			            ALUOutTemp = $signed(A) * $signed(B);                
-      			      ALUOut = ALUOutTemp[63:32];
+			ALUOutTemp = $signed(A) * $signed(B);                
+      			ALUOut = ALUOutTemp[63:32];
                 end                                                       // Multiply higher 32 bits  
       5'b10000: begin
                   ALUOutTemp = A * B;
