@@ -7,11 +7,7 @@ module ALU32Bit(
   input [31:0] A,
   input [31:0] B,
   input [4:0] ALUOp,
-  output reg [31:0] ALUOut,
-  output reg Zero,
-  output reg LT,
-  output reg GT,
-  output reg Overflow
+  output reg [31:0] ALUOut
 );
 
 reg [63:0] ALUOutTemp;
