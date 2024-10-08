@@ -52,7 +52,7 @@ always @(*) begin
       5'b11000: begin
                   ALUOutTemp = A * B;
                   ALUOut = ALUOutTemp[63:32];
-                end                                                       // Multiply higher 32 bits (Unsigned)                                                   // Multiply lower 32 bits (Unsigned)
+                end                                                       // Multiply higher 32 bits (Unsigned)
       5'b11001: begin
                   ALUOutTemp = $signed(A) * B;
                   ALUOut = ALUOutTemp[63:32];
