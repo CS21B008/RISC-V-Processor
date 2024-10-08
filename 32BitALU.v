@@ -1,5 +1,5 @@
 // 32-bit ALU supports the following functions:
-// ORDER(Integer Type): ADD,SUB,SEQ,SLT,SLE,SGT,SGE,SLTU,SLEU,SGTU,SGEU,NOT,AND,NAND,OR,NOR,XOR,XNOR,SLL,SRL,SLA,SRA,MUL,MULH,MULHU,MULHSU,DIV,DIVU,REM,REMU
+// ORDER(Integer Type): ADD,SUB,SEQ,SLT,SLE,SGT,SGE,SLTU,SLEU,SGTU,SGEU,NOT,AND,NAND,OR,NOR,XOR,XNOR,SLL,SRL,SRA,MUL,MULH,MULU,MULHU,MULHSU,DIV,DIVU,REM,REMU
 // Floating point type: need to do in the future
 
 
@@ -36,20 +36,23 @@ always @(*) begin
       5'b10001: ALUOut = ~(A ^ B);                                        // Bitwise XNOR
       5'b10010: ALUOut = A << B;                                          // Shift Left Logical
       5'b10011: ALUOut = A >> B;                                          // Shift Right Logical
-      5'b10100: ALUOut = $signed(A) << B;                                 // Shift Left Arithmetic
-      5'b10101: ALUOut = $signed(A) >> B;                                 // Shift Right Arithmetic
-      5'b10110: begin
+      5'b10100: ALUOut = $signed(A) >>> B;                                // Shift Right Arithmetic
+      5'b10101: begin
                 	ALUOutTemp = $signed(A) * $signed(B);                     
                 	ALUOut = ALUOutTemp[31:0];
-                end                 		    			  // Multiply lower 32 bits (signed)
-      5'b10111: begin
+                end                                                       // Multiply lower 32 bits (signed)
+      5'b10110: begin
                   ALUOutTemp = $signed(A) * $signed(B);                
       			      ALUOut = ALUOutTemp[63:32];
                 end                                                       // Multiply higher 32 bits (signed)
+      5'b10111: begin
+                  ALUOutTemp = A * B;
+                  ALUOut = ALUOutTemp[31:0];
+                end                                                       // Multiply lower 32 bits (Unsigned)
       5'b11000: begin
                   ALUOutTemp = A * B;
                   ALUOut = ALUOutTemp[63:32];
-                end                                                       // Multiply higher 32 bits (Unsigned)
+                end                                                       // Multiply higher 32 bits (Unsigned)                                                   // Multiply lower 32 bits (Unsigned)
       5'b11001: begin
                   ALUOutTemp = $signed(A) * B;
                   ALUOut = ALUOutTemp[63:32];
@@ -58,7 +61,7 @@ always @(*) begin
       5'b11011: ALUOut = (A / B);                                         // Divide (unsigned)
       5'b11100: ALUOut = ($signed(A) % $signed(B));                       // Remainder (signed)
       5'b11101: ALUOut = (A % B);                                         // Remainder (unsigned)
-      
+
       default: ALUOut = 32'd0;                                            // Default output is zero
   endcase               
 end
