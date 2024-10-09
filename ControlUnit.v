@@ -1,6 +1,8 @@
 module ControlUnit(
     input [31:0] inst,
-    output reg [4:0] aluControl
+    output [31:0] A,
+    output [31:0] B,
+    output reg [4:0] ALUOp
 );
 
 wire [1:0] instType = inst[1:0];
@@ -12,55 +14,57 @@ always @(*) begin
         2'b00:  begin // R-Type Instructions
                 opcode = inst[6:2];
                 funct3 = inst[14:12];
+                A = inst[24:20];
+                B = inst[19:15];
                 case(opcode)
                     5'b00000:   begin
                                 case(funct3)
-                                    3'b000: aluControl = 5'b00000;
-                                    3'b001: aluControl = 5'b00001;
-                                    3'b010: aluControl = 5'b10101;
-                                    3'b011: aluControl = 5'b10110;
-                                    3'b100: aluControl = 5'b11010;
-                                    3'b101  aluControl = 5'b11100;
+                                    3'b000: ALUOp = 5'b00000;
+                                    3'b001: ALUOp = 5'b00001;
+                                    3'b010: ALUOp = 5'b10101;
+                                    3'b011: ALUOp = 5'b10110;
+                                    3'b100: ALUOp = 5'b11010;
+                                    3'b101  ALUOp = 5'b11100;
                                     default: 5'b00000; 
                                 endcase
                                 end
                     5'b00100:   begin
                                 case(funct3)
-                                    3'b010: aluControl = 5'b10111;
-                                    3'b011: aluControl = 5'b11000;
-                                    3'b100: aluControl = 5'b11011;
-                                    3'b101  aluControl = 5'b11101; 
+                                    3'b010: ALUOp = 5'b10111;
+                                    3'b011: ALUOp = 5'b11000;
+                                    3'b100: ALUOp = 5'b11011;
+                                    3'b101  ALUOp = 5'b11101; 
                                     default: 5'b10111;
                                 endcase
                                 end
                     5'b00001:   begin
                                 case(funct3)
-                                    3'b000: aluControl = 5'b00010;
-                                    3'b001: aluControl = 5'b00011;
-                                    3'b010: aluControl = 5'b00100;
-                                    3'b011: aluControl = 5'b00101;
-                                    3'b100: aluControl = 5'b00110;
+                                    3'b000: ALUOp = 5'b00010;
+                                    3'b001: ALUOp = 5'b00011;
+                                    3'b010: ALUOp = 5'b00100;
+                                    3'b011: ALUOp = 5'b00101;
+                                    3'b100: ALUOp = 5'b00110;
                                     default: 5'b00010;
                                 endcase
                                 end
                     5'b00011:   begin
                                 case(funct3)
-                                    3'b001: aluControl = 5'b00111;
-                                    3'b010: aluControl = 5'b01000;
-                                    3'b011: aluControl = 5'b01001;
-                                    3'b100: aluControl = 5'b01010;
+                                    3'b001: ALUOp = 5'b00111;
+                                    3'b010: ALUOp = 5'b01000;
+                                    3'b011: ALUOp = 5'b01001;
+                                    3'b100: ALUOp = 5'b01010;
                                     default: 5'b00111;
                                 endcase
                                 end
                     5'b00010:   begin
                                 case(funct3)
-                                    3'b000: aluControl = 5'b01011;
-                                    3'b001: aluControl = 5'b01100;
-                                    3'b010: aluControl = 5'b01110;
-                                    3'b011: aluControl = 5'b10000;
-                                    3'b100: aluControl = 5'b01101;
-                                    3'b101  aluControl = 5'b01111;
-                                    3'b110: aluControl = 5'b10001;
+                                    3'b000: ALUOp = 5'b01011;
+                                    3'b001: ALUOp = 5'b01100;
+                                    3'b010: ALUOp = 5'b01110;
+                                    3'b011: ALUOp = 5'b10000;
+                                    3'b100: ALUOp = 5'b01101;
+                                    3'b101  ALUOp = 5'b01111;
+                                    3'b110: ALUOp = 5'b10001;
                                     default: 5'b01011; 
                                 endcase
                                 end
@@ -81,40 +85,40 @@ always @(*) begin
                 case(opcode)
                     5'b00000:   begin
                                 case(funct3)
-                                    3'b010: aluControl = 5'b10101;
-                                    3'b100: aluControl = 5'b11010;
-                                    3'b101  aluControl = 5'b11100;
+                                    3'b010: ALUOp = 5'b10101;
+                                    3'b100: ALUOp = 5'b11010;
+                                    3'b101  ALUOp = 5'b11100;
                                     default: 5'b10101; 
                                 endcase
                                 end
                     5'b00001:   begin
                                 case(funct3)
-                                    3'b000: aluControl = 5'b00010;
-                                    3'b001: aluControl = 5'b00011;
-                                    3'b010: aluControl = 5'b00100;
-                                    3'b011: aluControl = 5'b00101;
-                                    3'b100: aluControl = 5'b00110;
+                                    3'b000: ALUOp = 5'b00010;
+                                    3'b001: ALUOp = 5'b00011;
+                                    3'b010: ALUOp = 5'b00100;
+                                    3'b011: ALUOp = 5'b00101;
+                                    3'b100: ALUOp = 5'b00110;
                                     default: 5'b00010;
                                 endcase
                                 end
                     5'b00011:   begin
                                 case(funct3)
-                                    3'b001: aluControl = 5'b00111;
-                                    3'b010: aluControl = 5'b01000;
-                                    3'b011: aluControl = 5'b01001;
-                                    3'b100: aluControl = 5'b01010;
+                                    3'b001: ALUOp = 5'b00111;
+                                    3'b010: ALUOp = 5'b01000;
+                                    3'b011: ALUOp = 5'b01001;
+                                    3'b100: ALUOp = 5'b01010;
                                     default: 5'b00111;
                                 endcase
                                 end
                     5'b00010:   begin
                                 case(funct3)
-                                    3'b000: aluControl = 5'b01011;
-                                    3'b001: aluControl = 5'b01100;
-                                    3'b010: aluControl = 5'b01110;
-                                    3'b011: aluControl = 5'b10000;
-                                    3'b100: aluControl = 5'b01101;
-                                    3'b101  aluControl = 5'b01111;
-                                    3'b110: aluControl = 5'b10001;
+                                    3'b000: ALUOp = 5'b01011;
+                                    3'b001: ALUOp = 5'b01100;
+                                    3'b010: ALUOp = 5'b01110;
+                                    3'b011: ALUOp = 5'b10000;
+                                    3'b100: ALUOp = 5'b01101;
+                                    3'b101  ALUOp = 5'b01111;
+                                    3'b110: ALUOp = 5'b10001;
                                     default: 5'b01011; 
                                 endcase
                                 end
