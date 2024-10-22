@@ -5,7 +5,6 @@
 module PC32Bit(
   input [31:0] PCIn,
   input PCReset,
-  input PCSet,
   input clk,
   output reg [31:0] PCOut
 );
@@ -14,14 +13,12 @@ reg [31:0] PC;
 
 always @(posedge clk)
 begin
-  PC = PC + 1;
   if(PCReset)
     PC = 0;
-  else if(PCSet)
+  else
     PC = PCIn;
   
   PCOut = PC;
-  
 end
 
 endmodule
