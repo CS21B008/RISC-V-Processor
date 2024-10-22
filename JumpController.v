@@ -14,13 +14,14 @@ always @(*) begin
     instType = opcode[1:0];
 
     case(opcode)
-        2'b10: begin
+        2'b10: begin // S-Type
             case(funct3)
                 3'b000: jump = zr; // BEQ
                 3'b111: jump = ~zr; // BNE
                 default: jump = ALUOut[0]; // BLT, BLTU, BLE, BLEU, BGT, BGTU, BGE, BGEU
             endcase
         end
+        2'b11: jump = 1'b1; // U-Type
         default: jump = 1'b0;
     endcase 
 end
