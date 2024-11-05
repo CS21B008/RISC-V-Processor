@@ -15,6 +15,6 @@
 `define ALUWB 4'b0111
 `define ExI 4'b1000
 `define JAL 4'b1001
-`define BEQ 4'b1010
+`define Branch 4'b1010
 
 `endif

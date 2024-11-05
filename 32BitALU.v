@@ -8,13 +8,16 @@ module ALU32Bit(
   input [31:0] A,
   input [31:0] B,
   input [4:0] ALUOp,
-  output reg [31:0] ALUOut
+  output reg [31:0] ALUOut,
+  output reg Eq,
+  output reg Gt,
+  output reg GtU
 );
 
 reg [63:0] ALUOutTemp;
 
 always @(*) begin
-  
+
   // ALU operations based on ALU_Sel
   case(ALUOp)
     `ADD: ALUOut = A + B;                         // Add
@@ -36,6 +39,8 @@ always @(*) begin
     `DIVU: ALUOut = (A / B);                      // Divide (unsigned)
     `REM: ALUOut = ($signed(A) % $signed(B));     // Remainder (signed)
     `REMU: ALUOut = (A % B);                      // Remainder (unsigned)
+    `SLT: ALUOut = ($signed(A) < $signed(B)) ? 32'd1 : 32'd0;       // SLT (signed Comparison)
+    `SLTU: ALUOut = (A < B) ? 32'd1 : 32'd0;                         // SLTU (Unsigned Comparison)
     `AND: ALUOut = A & B;                         // Bitwise AND
     `OR: ALUOut = A | B;                          // Bitwise OR
     `XOR: ALUOut = A ^ B;                         // Bitwise XOR
@@ -89,7 +94,13 @@ always @(*) begin
       // 5'b11100: ALUOut = ($signed(A) % $signed(B));                       // Remainder (signed)
       // 5'b11101: ALUOut = (A % B);                                         // Remainder (unsigned)
 
-      default: ALUOut = 32'd0;                                            // Default output is zero
-  endcase               
+      // default: ALUOut = 32'd0;                                            // Default output is zero
+  endcase  
+
+  // Equal flag and Greater than flag
+  Eq = (A == B) ? 1 : 0;
+  Gt = ($signed(A) > $signed(B)) ? 1 : 0;
+  GtU = (A > B) ? 1 : 0;
+
 end
 endmodule

@@ -1,7 +1,5 @@
 // A module to check if the condition is met for a jump instruction
 
-`include "./Funct3Parameters.vh"
-
 module JumpController(
   input [2:0] funct3,
   input Eq,
