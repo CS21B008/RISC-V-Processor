@@ -38,6 +38,9 @@ IF_ID_reg IF_ID_reg(
     .instructionOut(IF_ID_InstOut)
 );
 
+
+
+
 always @(posedge clk) begin
     instructionAddress = PCOut;
     PC = PCOut + 1;
