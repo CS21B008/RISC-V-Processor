@@ -16,5 +16,6 @@
 `define ExI 4'b1000
 `define JAL 4'b1001
 `define Branch 4'b1010
+`define LUI 4'b1011
 
 `endif

@@ -7,6 +7,7 @@
 `define PC_4 2'b00
 `define OldPC 2'b01
 `define RegA 2'b10
+`define Zero 2'b11
 
 // ALUSrcB parameters
 `define RegB 2'b00
