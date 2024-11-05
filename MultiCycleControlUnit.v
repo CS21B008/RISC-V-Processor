@@ -175,6 +175,17 @@ always @(*) begin
             ALUSrcA = `RegA; // Reg1
             ALUSrcB = `RegB; // Reg2
             // RegWrite = 0 is same as previous state that is ID state so no need to change;
+        end
+        `LUI : begin
+            // PCWrite = 0 is same as previous state that is ID state so no need to change
+            // AdrSrc = 0 is same as previous state that is ID state so no need to change
+            // MemWrite = 0 is same as previous state that is ID state so no need to change
+            // IRWrite = 0 is same as previous state that is ID state so no need to change
+            // ResultSrc doesn't matter as PC, Mem, Reg are not updated in this state
+            ALUControl = `ADD; // Add
+            ALUSrcA = `Zero; // zero
+            ALUSrcB = `Imm; // Imm
+            // RegWrite is same as previous state that is ID state so no need to change;
         end 
         default: begin
         end
@@ -190,9 +201,10 @@ always @(posedge clk) begin
             case(OpCode)
                 `LoadIType, `StoreSType : next_state = `MemAdr;
                 `RType : next_state = `ExR;
-                `TypicalIType : next_state = `ExI;
+                `TypicalIType, `JALRIType : next_state = `ExI;
                 `JALUType : next_state = `JAL;
                 `BranchSType : next_state = `Branch;
+                `AUIPCUType : next_state = `ALUWB;
             endcase
         end
         `MemAdr: begin
@@ -215,13 +227,17 @@ always @(posedge clk) begin
             next_state = `IF;
         end
         `ExI: begin
-            next_state = `ALUWB;
+            if(OpCode == `JALRIType) next_state = `JAL;
+            else next_state = `ALUWB;
         end
         `JAL: begin
             next_state = `ALUWB;
         end
         `Branch: begin
             next_state = `IF;
+        end
+        `LUI: begin
+            next_state = `ALUWB;
         end
         default: begin
         end

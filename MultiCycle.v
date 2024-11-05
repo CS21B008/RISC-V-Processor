@@ -98,6 +98,7 @@ always @(*) begin
         `PC_4 : SrcA = PC;
         `OldPC : SrcA = OldPC;
         `RegA : SrcA = Reg1;
+        `Zero : SrcA = 32'd0;
     endcase
 
     case(ALUSrcB)
