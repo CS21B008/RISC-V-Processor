@@ -3,7 +3,7 @@ module Memory
 (
     input clock,
     input isWrite,
-    input byteWrite,
+    // input byteWrite,
     input byteRead,
     input [31:0] address, //memory is 2^18
     input [31:0] writeData, 
@@ -93,7 +93,7 @@ module Memory
         .clock(clock),  //correct
         .address(displayAddress),   
         .displayAddr(displayAddr[15:0]),  //corrrect
-        .byteWrite(byteWrite),      //correct
+        // .byteWrite(byteWrite),      //correct
         .isWrite(displayIsWrite),              
         .writeData(writeData),      //correct
         .content(content),          //correct

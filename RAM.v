@@ -1,34 +1,40 @@
-// a Height Length 32-bit width RAM
 
-module RAM #(
-    parameter Height = 64,
-    parameter Length = 32
-)(
-    input [Length-1:0] dataIn,
-    input [$clog2(Height)-1:0] address,
-    input writeEnable,
-    output reg [Length-1:0] dataOut
-);
+module RAM(
+    input clock,
+    input [3:0] isWrite,
+    input [31:0] writeData,
+    input [15:0] address,
+    output reg [31:0] data,
+    input isRead
+    );
+    
+    (*ram_decomp = "power"*)
+    (* ram_style="block" *)
+    (*DONT_TOUCH = "true"*)
+    reg [31:0] RAM[16383:0];
 
-reg [Length-1:0] Registers[0:Height-1];
 
-integer i=0;
+    wire [13:0] addr;
+    assign addr = address[15:2];
+    // initial
+    // begin
+    //    // $readmemb("ram.mem", RAM, 0, 16383);
+    //     data <= 32'd00;
+    // end
+   
+    
+    always @(posedge clock)
+        begin
+            if( isRead )
+                data <= RAM[addr];
+        end
 
-initial begin
-  while(i<Height) begin
-    Registers[i] = 32'd0;
-    i=i+1;
-  end
-end
+    // assign data = RAM[addr];
+    
+    always @(posedge clock)
+        begin 
+            if( isWrite == 4'b1111 )
+            RAM[addr]<= writeData;
+        end
 
-always @(*) 
-begin
-  if(address < $clog2(Height)-1) begin
-    if(writeEnable) begin
-      Registers[address] = dataIn;
-    end
-    dataOut = Registers[address];
-  end
-end
-
-endmodule
+endmodule				

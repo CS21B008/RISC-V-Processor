@@ -195,54 +195,54 @@ end
 always @(posedge clk) begin
     case(current_state)
         `IF: begin
-            next_state = `ID;
+            next_state <= `ID;
         end
         `ID: begin
             case(OpCode)
-                `LoadIType, `StoreSType : next_state = `MemAdr;
-                `RType : next_state = `ExR;
-                `TypicalIType, `JALRIType : next_state = `ExI;
-                `JALUType : next_state = `JAL;
-                `BranchSType : next_state = `Branch;
-                `AUIPCUType : next_state = `ALUWB;
+                `LoadIType, `StoreSType : next_state <= `MemAdr;
+                `RType : next_state <= `ExR;
+                `TypicalIType, `JALRIType : next_state <= `ExI;
+                `JALUType : next_state <= `JAL;
+                `BranchSType : next_state <= `Branch;
+                `AUIPCUType : next_state <= `ALUWB;
             endcase
         end
         `MemAdr: begin
-            if(OpCode == `StoreSType) next_state = `MemWrite;
-            else next_state = `MemRead;
+            if(OpCode == `StoreSType) next_state <= `MemWrite;
+            else next_state <= `MemRead;
         end
         `MemRead: begin
-            next_state = `MemWB;
+            next_state <= `MemWB;
         end
         `MemWB: begin
-            next_state = `IF;
+            next_state <= `IF;
         end
         `MemWrite: begin
-            next_state = `IF;
+            next_state <= `IF;
         end
         `ExR: begin
-            next_state = `ALUWB;
+            next_state <= `ALUWB;
         end
         `ALUWB: begin
-            next_state = `IF;
+            next_state <= `IF;
         end
         `ExI: begin
-            if(OpCode == `JALRIType) next_state = `JAL;
-            else next_state = `ALUWB;
+            if(OpCode == `JALRIType) next_state <= `JAL;
+            else next_state <= `ALUWB;
         end
         `JAL: begin
-            next_state = `ALUWB;
+            next_state <= `ALUWB;
         end
         `Branch: begin
-            next_state = `IF;
+            next_state <= `IF;
         end
         `LUI: begin
-            next_state = `ALUWB;
+            next_state <= `ALUWB;
         end
         default: begin
         end
     endcase
-    current_state = next_state;
+    current_state <= next_state;
 end
 
 endmodule

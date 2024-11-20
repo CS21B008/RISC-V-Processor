@@ -3,12 +3,12 @@ module Screen_Memory(
     input clock,
     input [15:0] address,
     input [15:0] displayAddr,
-    input byteWrite,
+    // input byteWrite,
     input isWrite,
     input [31:0] writeData,
 	output reg [31:0] content,
     output [31:0] displayData
-    );
+);
 
     (* ram_style = "block" *)
     reg [31:0] memory [2399:0];

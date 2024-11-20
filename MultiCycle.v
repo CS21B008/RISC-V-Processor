@@ -3,13 +3,83 @@
 `include "./CUParameters.vh"
 
 module MultiCycle (
-    input clk,
-    input reset
-    // input reg [31:0] MemData,
-    // output reg [31:0] MemAddress,
-    // output reg [31:0] MemWriteData,
-    // output MemWrite
+    input sysclk,
+    input reset,
+    input ps2c,
+    input ps2d,
+    output reg [3:0] led,
+    output [2:0] TMDSp,
+    output [2:0] TMDSn,
+    output TMDSp_clock,
+    output TMDSn_clock
 );
+
+// slowing sysclk by 4 times so that IO can complete its operation
+wire clk;
+reg [2:0] clk_div;
+always @(posedge sysclk) clk_div <= clk_div + 1'b1;
+assign clk = clk_div[2];
+// end of slowing sysclk
+
+// Display Drivers
+wire [31:0] display_address;
+wire [31:0] display_dataOut;
+
+DisplayDriver dispDriver (
+    .clk(sysclk),
+    .displayData(display_dataOut),
+    .TMDSp(TMDSp),
+    .TMDSn(TMDSn),
+    .pointer(display_address),
+    .TMDSp_clock(TMDSp_clock),
+    .TMDSn_clock(TMDSn_clock)
+);
+// End of Display Drivers
+
+// KeyBoard Controller
+wire scan_code_ready;
+wire [7:0] ascii_code;
+
+parameter lowercase = 0;
+parameter state_break = 1;
+parameter BREAK = 8'hf0; //key released
+
+wire scan_done_tick;
+wire [7:0] scan_out;
+reg [7:0] key_reg;
+
+wire [2:0] next_state;
+reg [2:0] current_state;
+reg sample;
+
+initial
+begin
+    sample<=1'b1;
+end
+
+ps2_rx ps2_rx_unit (.clk(sysclk), .reset(1'b0), .rx_en(1'b1), .ps2d(ps2d), .ps2c(ps2c), .rx_done_tick(scan_done_tick), .rx_data(scan_out));
+
+initial 
+begin
+    current_state = lowercase;
+end
+
+always @(posedge scan_done_tick)
+begin
+    current_state <= next_state;
+end
+
+assign next_state = (current_state == lowercase && scan_out == BREAK ) ? state_break : lowercase;
+assign scan_code_ready = (current_state == state_break) ? 1'b1 : 1'b0;
+
+scanToAscii scanToAscii_unit (.letter_case(1'b0), .scan_code(scan_out), .ascii_code(ascii_code));
+
+
+always @(negedge scan_code_ready) begin
+    key_reg <= ascii_code;
+    sample <= ~sample;
+end
+// End of KeyBoard Controller
 
 reg [31:0] PC;
 reg [31:0] OldPC;
@@ -85,15 +155,30 @@ ALU32Bit ALU32Bit(
     .GtU(GtU)
 );
 
-RAM #(65536,32) RAM(
-    .dataIn(MemWriteData),
-    .address(MemAddress[17:2]),
-    .writeEnable(MemWrite),
-    .dataOut(MemData)
+// RAM #(65536,32) RAM(
+//     .dataIn(MemWriteData),
+//     .address(MemAddress[17:2]),
+//     .writeEnable(MemWrite),
+//     .dataOut(MemData)
+// );
+
+Memory mem (
+    .clock(clk), 
+    .isWrite(MemWrite), 
+    // .byteWrite(Zero),
+    .address(MemAddress), 
+    .writeData(MemWriteData), 
+    .RD(MemData), 
+    .displayAddr(display_address), 
+    .displayData(display_dataOut), 
+    .sample(sample), 
+    .key_reg(key_reg),
+    .led(led)
 );
 
 initial begin
     PC = 32'd0;
+    Result = 32'd0;
 end
 
 always @(*) begin
@@ -127,14 +212,14 @@ always @(*) begin
 end
 
 always @(posedge clk) begin
-    if(reset) PC = 32'd0;
-    if(PCWrite) PC = Result;
+    if(reset) PC <= 32'd0;
+    if(PCWrite) PC <= Result;
     if(IRWrite) begin
-        Inst = MemData;
-        OldPC = PC;
+        Inst <= MemData;
+        OldPC <= PC;
     end
-    Data = MemData;
-    ALUOut = ALUResult;
+    Data <= MemData;
+    ALUOut <= ALUResult;
 end
 
 endmodule
