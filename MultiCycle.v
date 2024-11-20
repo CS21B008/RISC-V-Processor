@@ -4,11 +4,11 @@
 
 module MultiCycle (
     input clk,
-    input reset,
-    input reg [31:0] MemData,
-    output reg [31:0] MemAddress,
-    output reg [31:0] MemWriteData,
-    output MemWrite
+    input reset
+    // input reg [31:0] MemData,
+    // output reg [31:0] MemAddress,
+    // output reg [31:0] MemWriteData,
+    // output MemWrite
 );
 
 reg [31:0] PC;
@@ -19,7 +19,10 @@ reg [31:0] ALUOut;
 reg [31:0] SrcA;
 reg [31:0] SrcB;
 reg [31:0] Result;
+reg [31:0] MemWriteData;
+reg [31:0] MemAddress;
 
+wire [31:0] MemData;
 wire PCWrite;
 wire AdrSrc;
 wire IRWrite;
@@ -35,6 +38,7 @@ wire [31:0] ALUResult;
 wire Eq;
 wire Gt;
 wire GtU;
+wire MemWrite;
 
 MultiCycleControlUnit MultiCycleControlUnit(
     .clk(clk),
@@ -79,6 +83,13 @@ ALU32Bit ALU32Bit(
     .Eq(Eq),
     .Gt(Gt),
     .GtU(GtU)
+);
+
+RAM #(65536,32) RAM(
+    .dataIn(MemWriteData),
+    .address(MemAddress[17:2]),
+    .writeEnable(MemWrite),
+    .dataOut(MemData)
 );
 
 initial begin
