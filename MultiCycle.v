@@ -3,17 +3,17 @@
 `include "./CUParameters.vh"
 
 module MultiCycle (
-    input sysclk,
-    input reset,
-    input ps2c,
-    input ps2d,
-    output reg [3:0] led,
-    output [2:0] TMDSp,
-    output [2:0] TMDSn,
-    output TMDSp_clock,
-    output TMDSn_clock
+    input clk,
+    input reset
+    // input ps2c,
+    // input ps2d,
+    // output [3:0] led,
+    // output [2:0] TMDSp,
+    // output [2:0] TMDSn,
+    // output TMDSp_clock,
+    // output TMDSn_clock
 );
-
+/*
 // slowing sysclk by 4 times so that IO can complete its operation
 wire clk;
 reg [2:0] clk_div;
@@ -80,6 +80,7 @@ always @(negedge scan_code_ready) begin
     sample <= ~sample;
 end
 // End of KeyBoard Controller
+*/
 
 reg [31:0] PC;
 reg [31:0] OldPC;
@@ -155,14 +156,14 @@ ALU32Bit ALU32Bit(
     .GtU(GtU)
 );
 
-// RAM #(65536,32) RAM(
-//     .dataIn(MemWriteData),
-//     .address(MemAddress[17:2]),
-//     .writeEnable(MemWrite),
-//     .dataOut(MemData)
-// );
+RAM_NoClk #(65536,32,"../RISC-V-Processor/RAM.mem",203) RAM(
+    .dataIn(MemWriteData),
+    .address(MemAddress[15:0]),
+    .writeEnable(MemWrite),
+    .dataOut(MemData)
+);
 
-Memory mem (
+/*Memory mem (
     .clock(clk), 
     .isWrite(MemWrite), 
     // .byteWrite(Zero),
@@ -174,7 +175,7 @@ Memory mem (
     .sample(sample), 
     .key_reg(key_reg),
     .led(led)
-);
+);*/
 
 initial begin
     PC = 32'd0;
@@ -200,7 +201,7 @@ always @(*) begin
     case(ALUSrcB)
         `RegB : SrcB = Reg2;
         `Imm : SrcB = Imm;
-        `PC_4_Imm : SrcB = 32'd4;
+        `PC_4_Imm : SrcB = 32'd1;
     endcase
 
     case(ResultSrc)

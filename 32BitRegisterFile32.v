@@ -18,19 +18,15 @@ reg [31:0] Registers[0:31];
 integer i=0;
 
 initial begin
-  while(i<32) begin
-    Registers[i] = 32'd0;
-    i=i+1;
-  end
+  for(i=0;i<32;i=i+1) Registers[i] = 32'd0;
 end
 
 always @(posedge clk) begin
-  ReadData1 = Registers[ReadPort1];
-  ReadData2 = Registers[ReadPort2];
-  if(WriteEnable) begin
-    Registers[WritePort] = WriteData;
+  ReadData1 <= Registers[ReadPort1];
+  ReadData2 <= Registers[ReadPort2];
+  if(WritePort!=5'd0 & WriteEnable) begin
+    Registers[WritePort] <= WriteData;
   end
-  Registers[0] = 32'd0;
 end
 
 endmodule
