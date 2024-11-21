@@ -7,6 +7,7 @@
 
 module MultiCycleControlUnit(
     input clk,
+    input reset,
     input [6:0] OpCode,
     input [2:0] funct3,
     input [6:0] funct7,
@@ -26,8 +27,12 @@ module MultiCycleControlUnit(
 );
 
 reg [3:0] current_state, next_state;
+reg inDefault;
 
-initial current_state = `IF;
+initial begin
+    current_state = `IF;
+    inDefault = 1'b0;
+end
 
 wire [4:0] ALUOp;
 ALUControlUnit ALUControlUnit(
@@ -53,6 +58,11 @@ always @(*) begin
     //     `StoreSType, `BranchSType : ImmSrc = `STypeImm; // S-Type
     //     `JALUType, `AUIPCUType, `LUIUType : ImmSrc = `UTypeImm; // U-Type
     // endcase
+
+    if(reset) begin
+        inDefault = 1'b1;
+        current_state = 4'b1111;
+    end
 
     case (current_state)
         `IF : begin
@@ -188,6 +198,10 @@ always @(*) begin
             // RegWrite is same as previous state that is ID state so no need to change;
         end 
         default: begin
+            if(inDefault & !reset) begin
+                inDefault = 1'b0;
+                current_state = `IF;
+            end 
         end
     endcase
 end
@@ -248,5 +262,9 @@ end
 always @(posedge clk) begin
     current_state <= next_state;
 end
+
+task displayState();
+    $display("Time: %0dns | current state: %b | next state: %b", $time, current_state, next_state);
+endtask
 
 endmodule

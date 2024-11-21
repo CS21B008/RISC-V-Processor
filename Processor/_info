@@ -1,0 +1,227 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dG:/
+vALU32Bit
+Z0 !s110 1732203821
+!i10b 1
+!s100 S0Tf]=U[EYadSZ^>VR[I^2
+Z1 !s11b Dg1SIo80bB@j0V0VzS_@n1
+Id`QnoOO3i6]B2NR=ddDWh2
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+Z3 dD:/RISC-V-Processor
+Z4 w1730811148
+8D:/RISC-V-Processor/32BitALU.v
+FD:/RISC-V-Processor/32BitALU.v
+!i122 137
+L0 7 100
+Z5 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z6 !s108 1732203821.000000
+!s107 ./ALUParameters.vh|D:/RISC-V-Processor/32BitALU.v|
+!s90 -reportprogress|300|-work|Processor|-stats=none|D:/RISC-V-Processor/32BitALU.v|
+!i113 1
+Z7 o-work Processor
+Z8 tCvgOpt 0
+n@a@l@u32@bit
+vALUControlUnit
+R0
+!i10b 1
+!s100 S0fDLMG8j`JEXIglNSWFm0
+R1
+IgajX_<[l^ZV28_CYeUXSW1
+R2
+R3
+R4
+8D:/RISC-V-Processor/ALUControlUnit.v
+FD:/RISC-V-Processor/ALUControlUnit.v
+!i122 139
+L0 8 237
+R5
+r1
+!s85 0
+31
+R6
+!s107 ./Funct7Parameters.vh|./Funct3Parameters.vh|./OpCodeParameters.vh|./ALUParameters.vh|D:/RISC-V-Processor/ALUControlUnit.v|
+!s90 -reportprogress|300|-work|Processor|-stats=none|D:/RISC-V-Processor/ALUControlUnit.v|
+!i113 1
+R7
+R8
+n@a@l@u@control@unit
+vImmediateGen
+Z9 !s110 1732203822
+!i10b 1
+!s100 LT:`;[Sh:Te0AN[YV?hG_3
+R1
+InAM6?bhR]FjO;080`;dWI2
+R2
+R3
+R4
+8D:/RISC-V-Processor/ImmediateGen.v
+FD:/RISC-V-Processor/ImmediateGen.v
+!i122 140
+L0 6 23
+R5
+r1
+!s85 0
+31
+Z10 !s108 1732203822.000000
+!s107 ./CUParameters.vh|./OpCodeParameters.vh|D:/RISC-V-Processor/ImmediateGen.v|
+!s90 -reportprogress|300|-work|Processor|-stats=none|D:/RISC-V-Processor/ImmediateGen.v|
+!i113 1
+R7
+R8
+n@immediate@gen
+vJumpController
+R9
+!i10b 1
+!s100 6aCnX7CJ;4P151lFGY2OU0
+R1
+I=FRI=Rc4RkEIbl[cbfA>>3
+R2
+R3
+R4
+8D:/RISC-V-Processor/JumpController.v
+FD:/RISC-V-Processor/JumpController.v
+!i122 141
+L0 5 38
+R5
+r1
+!s85 0
+31
+R10
+!s107 ./Funct3Parameters.vh|D:/RISC-V-Processor/JumpController.v|
+!s90 -reportprogress|300|-work|Processor|-stats=none|D:/RISC-V-Processor/JumpController.v|
+!i113 1
+R7
+R8
+n@jump@controller
+vMultiCycle
+R9
+!i10b 1
+!s100 <LzaLJdQfoO:z@l@glTcR3
+R1
+I046_]W2e^Sk5oaDLYjJo02
+R2
+R3
+w1732203443
+8D:\RISC-V-Processor\MultiCycle.v
+FD:\RISC-V-Processor\MultiCycle.v
+!i122 142
+L0 5 238
+R5
+r1
+!s85 0
+31
+R10
+!s107 ./CUParameters.vh|D:\RISC-V-Processor\MultiCycle.v|
+!s90 -reportprogress|300|-work|Processor|-stats=none|D:\RISC-V-Processor\MultiCycle.v|
+!i113 1
+R7
+R8
+n@multi@cycle
+vMultiCycle_tb
+R9
+!i10b 1
+!s100 ><L[h45EQ:MCmbU0=U[=E1
+R1
+IgkZc=nO>oKQb;:fbzTLdY2
+R2
+R3
+w1732187890
+8D:/RISC-V-Processor/MultiCycle_tb.v
+FD:/RISC-V-Processor/MultiCycle_tb.v
+!i122 145
+L0 3 44
+R5
+r1
+!s85 0
+31
+R10
+!s107 D:/RISC-V-Processor/MultiCycle_tb.v|
+!s90 -reportprogress|300|-work|Processor|-stats=none|D:/RISC-V-Processor/MultiCycle_tb.v|
+!i113 1
+R7
+R8
+n@multi@cycle_tb
+vMultiCycleControlUnit
+R9
+!i10b 1
+!s100 3T>zR[AE6`>M4XS9lU4nS2
+R1
+IjKz;]<QMk8Vb^UB7C6Ug00
+R2
+R3
+w1732187392
+8D:/RISC-V-Processor/MultiCycleControlUnit.v
+FD:/RISC-V-Processor/MultiCycleControlUnit.v
+!i122 143
+L0 8 263
+R5
+r1
+!s85 0
+31
+R10
+!s107 ./OpCodeParameters.vh|./CUParameters.vh|./ALUParameters.vh|./StateParameters.vh|D:/RISC-V-Processor/MultiCycleControlUnit.v|
+!s90 -reportprogress|300|-work|Processor|-stats=none|D:/RISC-V-Processor/MultiCycleControlUnit.v|
+!i113 1
+R7
+R8
+n@multi@cycle@control@unit
+vRAM_NoClk
+R9
+!i10b 1
+!s100 @PK2W_J7<GZWZ@5kJkI`O3
+R1
+I@^gbOdP?b?H]k@Q<d?j6`0
+R2
+R3
+w1732185174
+8D:/RISC-V-Processor/RAM_NoClk.v
+FD:/RISC-V-Processor/RAM_NoClk.v
+!i122 144
+L0 3 46
+R5
+r1
+!s85 0
+31
+R10
+!s107 D:/RISC-V-Processor/RAM_NoClk.v|
+!s90 -reportprogress|300|-work|Processor|-stats=none|D:/RISC-V-Processor/RAM_NoClk.v|
+!i113 1
+R7
+R8
+n@r@a@m_@no@clk
+vRegisterFile32Bit
+R0
+!i10b 1
+!s100 AeHfIDQ>BKd[lzf168=U12
+R1
+IjT79a7z4UFM8FW<P>KbZ]3
+R2
+R3
+w1732203673
+8D:/RISC-V-Processor/32BitRegisterFile32.v
+FD:/RISC-V-Processor/32BitRegisterFile32.v
+!i122 138
+L0 6 36
+R5
+r1
+!s85 0
+31
+R6
+!s107 D:/RISC-V-Processor/32BitRegisterFile32.v|
+!s90 -reportprogress|300|-work|Processor|-stats=none|D:/RISC-V-Processor/32BitRegisterFile32.v|
+!i113 1
+R7
+R8
+n@register@file32@bit

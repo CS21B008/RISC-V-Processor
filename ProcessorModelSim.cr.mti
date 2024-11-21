@@ -1,0 +1,68 @@
+D:/RISC-V-Processor/ImmediateGen.v {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/ImmediateGen.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module ImmediateGen
+
+Top level modules:
+	ImmediateGen
+
+} {} {}} D:/RISC-V-Processor/ALUControlUnit.v {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/ALUControlUnit.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module ALUControlUnit
+
+Top level modules:
+	ALUControlUnit
+
+} {} {}} D:/RISC-V-Processor/MultiCycleControlUnit.v {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/MultiCycleControlUnit.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module MultiCycleControlUnit
+
+Top level modules:
+	MultiCycleControlUnit
+
+} {} {}} D:/RISC-V-Processor/RAM_NoClk.v {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/RAM_NoClk.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module RAM_NoClk
+
+Top level modules:
+	RAM_NoClk
+
+} {} {}} D:/RISC-V-Processor/ALUParameters.vh {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/ALUParameters.vh
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+
+} {} {}} D:/RISC-V-Processor/OpCodeParameters.vh {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/OpCodeParameters.vh
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+
+} {} {}} D:/RISC-V-Processor/Funct3Parameters.vh {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/Funct3Parameters.vh
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+
+} {} {}} D:/RISC-V-Processor/MultiCycle_tb.v {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/MultiCycle_tb.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module MultiCycle_tb
+
+Top level modules:
+	MultiCycle_tb
+
+} {} {}} D:/RISC-V-Processor/JumpController.v {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/JumpController.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module JumpController
+
+Top level modules:
+	JumpController
+
+} {} {}} D:/RISC-V-Processor/Funct7Parameters.vh {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/Funct7Parameters.vh
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+
+} {} {}} D:/RISC-V-Processor/CUParameters.vh {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/CUParameters.vh
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+
+} {} {}} D:/RISC-V-Processor/StateParameters.vh {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/StateParameters.vh
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+
+} {} {}} D:/RISC-V-Processor/32BitALU.v {1 {vlog -work Processor -stats=none D:/RISC-V-Processor/32BitALU.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module ALU32Bit
+
+Top level modules:
+	ALU32Bit
+
+} {} {}}

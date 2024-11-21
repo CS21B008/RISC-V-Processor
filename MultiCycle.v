@@ -113,6 +113,7 @@ wire MemWrite;
 
 MultiCycleControlUnit MultiCycleControlUnit(
     .clk(clk),
+    .reset(reset),
     .OpCode(Inst[6:0]),
     .funct3(Inst[14:12]),
     .funct7(Inst[31:25]),
@@ -156,9 +157,9 @@ ALU32Bit ALU32Bit(
     .GtU(GtU)
 );
 
-RAM_NoClk #(65536,32,"../RISC-V-Processor/RAM.mem",203) RAM(
+RAM_NoClk #(256,32,"./test.bin",45) RAM(
     .dataIn(MemWriteData),
-    .address(MemAddress[15:0]),
+    .address(MemAddress[7:0]),
     .writeEnable(MemWrite),
     .dataOut(MemData)
 );
@@ -213,7 +214,7 @@ always @(*) begin
 end
 
 always @(posedge clk) begin
-    if(reset) PC <= 32'd0;
+    if(reset) PC = 32'd0;
     if(PCWrite) PC <= Result;
     if(IRWrite) begin
         Inst <= MemData;
@@ -222,5 +223,20 @@ always @(posedge clk) begin
     Data <= MemData;
     ALUOut <= ALUResult;
 end
+
+task displayMemory(); 
+    begin
+        RegisterFile32Bit.displayMemory();
+        RAM.displayMemory();
+    end
+endtask
+
+task displaySignals(); 
+    begin
+        MultiCycleControlUnit.displayState();
+        $display("Time: %0dns | PCWrite: %b | AdrSrc: %b | MemWrite: %b | IRWrite: %b | ResultSrc: %b | ALUControl: %b | ALUSrcA: %b | ALUSrcB: %b | RegWrite: %b", 
+                 $time, PCWrite, AdrSrc, MemWrite, IRWrite, ResultSrc, ALUControl, ALUSrcA, ALUSrcB, RegWrite);
+    end
+endtask
 
 endmodule

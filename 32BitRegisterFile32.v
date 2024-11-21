@@ -19,6 +19,7 @@ integer i=0;
 
 initial begin
   for(i=0;i<32;i=i+1) Registers[i] = 32'd0;
+  $readmemh("Reg.mem", Registers, 0, 31);
 end
 
 always @(posedge clk) begin
@@ -28,5 +29,13 @@ always @(posedge clk) begin
     Registers[WritePort] <= WriteData;
   end
 end
+
+task displayMemory();
+  integer i;
+  for(i=0;i<32;i=i+1)
+  begin
+    $display("Reg[%0d]: %b",i,Registers[i]);
+  end
+endtask
 
 endmodule

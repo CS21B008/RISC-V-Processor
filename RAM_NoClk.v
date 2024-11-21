@@ -37,4 +37,12 @@ begin
   end
 end
 
+task displayMemory();
+  integer i;
+  for(i=0;i<Height;i=i+1)
+  begin
+    $display("RAM[%0d]: %b",i,Registers[i]);
+  end
+endtask
+
 endmodule
