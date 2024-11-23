@@ -1,5 +1,5 @@
 # RISC-V-Processor
-This is a RISC-V Processor written in Verilog and supports RS32IM except fence, ebreak, ecall, lb, lbu, lh, lhu, sb, sh
+This is a RISC-V Processor written in `Verilog` and supports `RS32IM` except `fence`, `ebreak`, `ecall`, `lb`, `lbu`, `lh`, `lhu`, `sb`, `sh`
 
 # Authors
 CS21B008 - A. Shree Balaji
