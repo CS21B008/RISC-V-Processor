@@ -3,7 +3,9 @@ This is a RISC-V Processor written in Verilog and supports RS32IM except fence, 
 
 # Authors
 CS21B008 - A. Shree Balaji
+
 CS21B059 - J. Chandradithya
+
 CS21B034 - M. Shilpa
 
 ### Resources
